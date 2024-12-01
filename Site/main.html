@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İkili Hesap Makinesi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .header {
+            width: 100%;
+            color: rgb(0, 0, 0);
+            text-align: center;
+            padding: 20px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+        .header img {
+            width: 100px;
+            height: auto;
+        }
+        .header h1, .header h2 {
+            margin: 5px 0;
+        }
+        .header a {
+            display: block;
+            margin-top: 20px;
+            color: rgb(0, 0, 0);
+            text-decoration: underline;
+            font-size: 18px;
+        }
+        .calculator {
+            text-align: center;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"] {
+            width: 300px; /* Increased width for binary inputs */
+            padding: 10px;
+            margin: 10px;
+            text-align: center;
+            font-size: 16px;
+        }
+        button {
+            padding: 12px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result-section {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .result-section input {
+            width: 60px; /* Increased width for sign */
+            text-align: center;
+            font-size: 18px;
+            padding: 10px;
+        }
+        .result-section input.full-width {
+            width: 150px; /* Increased width for result parts */
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="https://bilecik.edu.tr/Image/yuvarlak-logo.png" alt="University Logo">
+        <h1>BŞEÜ</h1>
+        <h2>Bilgisayar Mühendisliği</h2>
+        <a href="iki.html" style="color: brown;">BCD Sayı Üretme</a>
+    </div>
+    <div class="calculator">
+        <h2>İkili Hesap Makinesi</h2>
+        <input type="text" id="binary1" placeholder="Max-16" maxlength="16" oninput="validateBinary(this)">
+        <select id="operation">
+            <option value="add">+</option>
+            <option value="subtract">-</option>
+            <option value="multiply">*</option>
+            <option value="divide">÷</option>
+        </select>
+        <input type="text" id="binary2" placeholder="Max-16" maxlength="16" oninput="validateBinary(this)">
+        <button onclick="calculate()">Result</button>
+        <div>
+            <h3>Sonuç:</h3>
+            <div class="result-section">
+                <input type="text" id="sign" placeholder="Sign" maxlength="1">
+                <input type="text" id="resultPart1" placeholder="LBI" maxlength="16" class="full-width">
+                <input type="text" id="resultPart2" placeholder="MBI" maxlength="16" class="full-width">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function validateBinary(input) {
+            // Allow only binary digits (0 or 1)
+            input.value = input.value.replace(/[^01]/g, '');
+        }
+
+        function calculate() {
+            const binary1 = document.getElementById("binary1").value;
+            const binary2 = document.getElementById("binary2").value;
+            const operation = document.getElementById("operation").value;
+
+            // Convert binary inputs to decimal
+            const num1 = parseInt(binary1, 2);
+            const num2 = parseInt(binary2, 2);
+
+            let result;
+            if (operation === "add") {
+                result = num1 + num2;
+            } else if (operation === "subtract") {
+                result = num1 - num2;
+            } else if (operation === "multiply") {
+                result = num1 * num2;
+            } else if (operation === "divide") {
+                if (num2 === 0) {
+                    result = "Error";
+                } else {
+                    result = Math.floor(num1 / num2);
+                }
+            }
+
+            // Handle cases where there's an error
+            if (result === "Error") {
+                document.getElementById("sign").value = "";
+                document.getElementById("resultPart1").value = "Error";
+                document.getElementById("resultPart2").value = "";
+                return;
+            }
+
+            // Determine the sign: 0 for positive, 1 for negative
+            const isNegative = result < 0;
+            document.getElementById("sign").value = isNegative ? "1" : "0";
+
+            // Convert result to absolute value binary and pad based on the input length
+            let binaryResult = Math.abs(result).toString(2);
+            const maxLength = Math.max(binary1.length, binary2.length);
+            binaryResult = binaryResult.padStart(maxLength, '0');
+
+            // Split the result based on its length
+            if (binaryResult.length <= 4) {
+                // Show result in left side only if it's 4 or fewer bits
+                document.getElementById("resultPart1").value = binaryResult;
+                document.getElementById("resultPart2").value = "";
+            } else {
+                // Split result evenly or close to even for longer results
+                const halfLength = Math.ceil(binaryResult.length / 2);
+                document.getElementById("resultPart1").value = binaryResult.slice(0, halfLength);
+                document.getElementById("resultPart2").value = binaryResult.slice(halfLength);
+            }
+        }
+    </script>
+</body>
+</html>

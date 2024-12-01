@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BCD Sayı Üretme</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        .header {
+            width: 100%;
+            color: rgb(0, 0, 0);
+            text-align: center;
+            padding: 20px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+        .header img {
+            width: 100px;
+            height: auto;
+        }
+        .header h1, .header h2 {
+            margin: 5px 0;
+        }
+        .header a {
+            display: block;
+            margin-top: 20px;
+            color: rgb(0, 0, 0);
+            text-decoration: underline;
+            font-size: 18px;
+        }
+        .converter {
+            text-align: center;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 150px; /* Adjusted margin to account for fixed header */
+        }
+        input[type="text"], textarea {
+            width: 500px; /* Increased width */
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .footer a img {
+            width: 30px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="https://bilecik.edu.tr/Image/yuvarlak-logo.png" alt="University Logo">
+        <h1>BŞEÜ</h1>
+        <h2>Bilgisayar Mühendisliği</h2>
+        <a href="main.html" style="color: brown;">İkili Hesap Makinesi</a>
+    </div>
+    
+    <div class="converter">
+        <h2>BCD Sayı Üretme</h2>
+        <form action="/cgi-bin/convert.cgi" method="post">
+            <input type="text" id="decimalInput" maxlength="8" name="decimal" placeholder="10-tabanlı sayı (max-8)" required>
+            <br>
+            <button onclick="convertToBinary()" type="submit">Sonuç</button>
+        </form>
+
+        <textarea id="binaryOutput" readonly rows="4" placeholder="İkili sonuç burada görünecek..."></textarea>
+    </div>
+
+    <div class="footer">
+        <a href="https://github.com/Noraldim/BM_Architecture" title="GitHub" target="_blank" rel="noopener noreferrer" style="color: black; font-size: 24px;">
+            <i class="fab fa-github fa-fw" aria-hidden="true"></i>
+        </a>
+        
+    </div>
+
+    <script>
+        function convertToBinary() {
+            let decimal = parseFloat(document.getElementById('decimalInput').value);
+            if (isNaN(decimal)) {
+                document.getElementById('binaryOutput').innerText = "Please enter a valid decimal number.";
+                return;
+            }
+
+            let integerPart = Math.floor(decimal);
+            let fractionalPart = decimal - integerPart;
+
+            let binaryInteger = integerPart.toString(2);
+            let binaryFraction = '';
+
+            while (fractionalPart > 0) {
+                fractionalPart *= 2;
+                if (fractionalPart >= 1) {
+                    binaryFraction += '1';
+                    fractionalPart -= 1;
+                } else {
+                    binaryFraction += '0';
+                }
+            }
+
+            let binaryResult = binaryInteger + (binaryFraction ? '.' + binaryFraction : '');
+            document.getElementById('binaryOutput').innerText = ""  + binaryResult;
+        }
+    </script>
+</body>
+</html>
