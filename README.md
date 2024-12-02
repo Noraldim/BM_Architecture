@@ -9,14 +9,14 @@ Bu proje, ondalıklı BCD (Binary Coded Decimal) sayıları ikili (binary) forma
 
 ## Dosya Yapısı
 
-- **bcd_converter.c: C dili ile yazılmış ana kod.
-- **ia32_bcd_converter.s: IA32 mimarisi için assembly kodu.
-- **x86_64_bcd_converter.s: x86_64 mimarisi için assembly kodu.
+- **theCode.c: C dili ile yazılmış ana kod.
+- **theCode_IA32: IA32 mimarisi için assembly kodu.
+- **theCode_x86_64: x86_64 mimarisi için assembly kodu.
 
 ## Örnek
 
 Giriş olarak 532.13022 verildiğinde, çıktı şu şekilde olur:
-  BCD: 0101 0011 0010.0001 0011 0000 0010 0010
+  BCD: 1000010100.0010000101010100110010011000010111110000011
   Binary: (Tam sayı karşılığı)
     
 ## Kullanım  
@@ -26,12 +26,18 @@ Giriş olarak 532.13022 verildiğinde, çıktı şu şekilde olur:
    cd BM_Architecture
 gcc -o theCode theCode.c  
 ./theCode
+
+
 ![image](https://github.com/user-attachments/assets/03a14516-2637-4d4c-8e4a-c4e38d29c83e)
 
+
 IA32
+
 ![image](https://github.com/user-attachments/assets/6da1bed4-5da6-45c8-b242-a5b6c8cefbdb)
 
+
 x86
+
 ![image](https://github.com/user-attachments/assets/248d4ff4-e759-48ca-b1ac-6d9838e2ddf6)
 
 
