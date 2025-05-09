@@ -43,4 +43,4 @@ x86
 
 
 
-# Canlı Demo[https://www.ikili.alpharesearch.me/]
+# Canlı Demo[https://www.binary.alpharesearch.me/]
